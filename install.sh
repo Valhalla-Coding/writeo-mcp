@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
-# macOS / Linux: curl -LsSf https://raw.githubusercontent.com/Valhalla-Coding/writeo-mcp/main/install.sh | sh
+# macOS / Linux: curl -LsSf https://raw.githubusercontent.com/Valhalla-Coding/writeo-mcp/HEAD/install.sh | sh
 # Extra options go after "-s --", e.g.  ... | sh -s -- --dry-run
 set -eu
-export WRITEO_MCP_SOURCE="${WRITEO_MCP_SOURCE:-https://github.com/Valhalla-Coding/writeo-mcp/archive/refs/heads/main.zip}"
+export WRITEO_MCP_SOURCE="${WRITEO_MCP_SOURCE:-https://github.com/Valhalla-Coding/writeo-mcp/archive/HEAD.zip}"
 
 find_uvx() {
   command -v uvx && return 0

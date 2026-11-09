@@ -23,8 +23,8 @@ Text is plain: blank lines separate chapter paragraphs, one line per note paragr
 
 One command. It installs [uv](https://docs.astral.sh/uv/) if you don't have it, finds the MCP apps on your computer (Claude Desktop, Claude Code, Codex, Cursor, VS Code, OpenCode, Antigravity), and asks which ones to set up.
 
-- **Windows (PowerShell):** `irm https://raw.githubusercontent.com/Valhalla-Coding/writeo-mcp/main/install.ps1 | iex`
-- **macOS / Linux:** `curl -LsSf https://raw.githubusercontent.com/Valhalla-Coding/writeo-mcp/main/install.sh | sh`
+- **Windows (PowerShell):** `irm https://raw.githubusercontent.com/Valhalla-Coding/writeo-mcp/HEAD/install.ps1 | iex`
+- **macOS / Linux:** `curl -LsSf https://raw.githubusercontent.com/Valhalla-Coding/writeo-mcp/HEAD/install.sh | sh`
 
 At the prompt, press Enter for all, type numbers like `1 3` to pick, or `n` for none. Then restart the app and say "sign in to Writeo".
 
@@ -33,7 +33,7 @@ Options (after `sh -s --` on macOS/Linux, or when running `install.ps1` from a c
 If your app isn't listed, add this to its MCP settings by hand (`--print` shows it with your own uvx path):
 
 ```json
-{ "mcpServers": { "writeo": { "command": "uvx", "args": ["--from", "https://github.com/Valhalla-Coding/writeo-mcp/archive/refs/heads/main.zip", "writeo-mcp"] } } }
+{ "mcpServers": { "writeo": { "command": "uvx", "args": ["--from", "https://github.com/Valhalla-Coding/writeo-mcp/archive/HEAD.zip", "writeo-mcp"] } } }
 ```
 
 ## Signing in

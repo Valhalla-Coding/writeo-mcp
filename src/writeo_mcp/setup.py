@@ -14,7 +14,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 NAME = "writeo"
-SOURCE = os.environ.get("WRITEO_MCP_SOURCE", "https://github.com/Valhalla-Coding/writeo-mcp/archive/refs/heads/main.zip")
+SOURCE = os.environ.get("WRITEO_MCP_SOURCE", "https://github.com/Valhalla-Coding/writeo-mcp/archive/HEAD.zip")
 ARGS = ["--from", SOURCE, "writeo-mcp"]
 
 NEW, CONFIGURED, OUTDATED, UNREADABLE = "new", "configured", "outdated", "unreadable"
