@@ -9,44 +9,7 @@ from writeo_mcp.client import WriteoError
 from writeo_mcp.server import mcp
 
 
-class FakeClient:
-    """Stands in for Client: returns canned replies by (METHOD, path) and records every call."""
-
-    def __init__(self, routes):
-        self.routes, self.calls = routes, []
-
-    def request(self, method, path, params=None, json=None):
-        self.calls.append((method, path, params, json))
-        reply = self.routes[(method, path)]
-        return reply(json) if callable(reply) else reply
-
-    def get(self, path, params=None): return self.request("GET", path, params=params)
-    def post(self, path, json): return self.request("POST", path, json=json)
-    def put(self, path, json): return self.request("PUT", path, json=json)
-    def delete(self, path): return self.request("DELETE", path)
-
-    def sent(self, method, path):
-        return [c[3] for c in self.calls if c[0] == method and c[1] == path]
-
-
-@pytest.fixture
-def use(monkeypatch):
-    def _use(routes):
-        fake = FakeClient(routes)
-        monkeypatch.setattr(deps, "client", fake)
-        monkeypatch.setattr(deps.state, "novel_id", None)
-        return fake
-    return _use
-
-
-def call(name, **args):
-    result = asyncio.run(mcp.call_tool(name, args))
-    content = result[0] if isinstance(result, tuple) else result
-    text = content[0].text
-    try:
-        return json.loads(text)
-    except ValueError:
-        return text
+from helpers import call  # noqa: E402
 
 
 def test_every_planned_tool_exists():

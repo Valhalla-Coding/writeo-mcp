@@ -24,3 +24,14 @@ Observed from the Writeo web app (November 2026). Unofficial and may change.
 - Character: `name`, `description`, `role` (Main / Side ...), `image_url` (empty string is accepted).
 - Note: `content` is a ProseMirror document `{type: "doc", content: [...]}`, sent as an object and returned as a JSON string.
 - Board: ids are UUIDs. `nodes` hold `{id, type, position, style, data, measured}`. Types seen: `sticky` and `free_text` (text in `data.content`), `shape` (`data.shapeType`, text in `data.label`). The board's `version` goes back as `base_version` when saving; it increases by one per save. Free plan: 3 boards.
+
+
+## Capture recipe
+
+Used before writing any new tool, so formats are recorded and never guessed. Request bodies differ from response bodies (for example relations: the request says `source_character_id`, the response `character_source_id`).
+
+1. Create a scratch novel named "Scratch capture" in the signed-in account.
+2. In the page, wrap `fetch` and `XMLHttpRequest` so each call to `api.writeo.app` keeps its method, path, request body and response. Never keep the Authorization header.
+3. Do each action once through Writeo's own screens (create, edit, reorder, delete).
+4. Save the recorded calls as `tests/fixtures/<area>.json` with scratch data only: no real story text, names or ids that identify the account.
+5. Delete the scratch novel on the site.
