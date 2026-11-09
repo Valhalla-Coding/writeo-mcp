@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Writeo for Claude</title>
+<style>
+  :root {
+    --bg: #14100c; --card: #1d1812; --line: #3a3025; --text: #f1e7d3; --muted: #b8ab94;
+    --gold: #d9b073; --gold-ink: #1a1209; --ok: #7bc690; --bad: #ff9a8a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 16px;
+    background: radial-gradient(60rem 36rem at 50% -10%, #2a2015 0%, var(--bg) 60%);
+    color: var(--text); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  main {
+    width: 100%; max-width: 26rem; background: var(--card); border: 1px solid var(--line);
+    border-radius: 16px; padding: 32px 28px; box-shadow: 0 20px 60px rgba(0, 0, 0, .45);
+  }
+  h1 { margin: 0 0 6px; font: 600 1.7rem/1.2 Georgia, "Times New Roman", serif; letter-spacing: .01em; }
+  p.lead { margin: 0 0 24px; color: var(--muted); font-size: .95rem; }
+  label { display: block; margin: 0 0 6px; font-size: .85rem; letter-spacing: .04em; color: var(--muted); }
+  .field { margin-bottom: 18px; position: relative; }
+  input {
+    width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--line);
+    background: #14100c; color: var(--text); font: inherit;
+  }
+  input#password { padding-right: 48px; }
+  input:focus-visible, button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .eye {
+    position: absolute; right: 4px; bottom: 4px; width: 40px; height: 40px; display: grid; place-items: center;
+    background: none; border: 0; border-radius: 8px; color: var(--muted); cursor: pointer;
+  }
+  .eye:hover { color: var(--text); }
+  .eye svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .eye .off { display: none; }
+  .eye[aria-pressed="true"] .on { display: none; }
+  .eye[aria-pressed="true"] .off { display: block; }
+  button.go {
+    width: 100%; padding: 13px; border: 0; border-radius: 10px; cursor: pointer;
+    background: var(--gold); color: var(--gold-ink); font: 600 1rem inherit; transition: filter .15s ease, transform .15s ease;
+  }
+  button.go:hover { filter: brightness(1.08); }
+  button.go:active { transform: translateY(1px); }
+  button.go[disabled] { opacity: .65; cursor: progress; }
+  #status { min-height: 1.5em; margin: 14px 0 0; font-size: .92rem; }
+  #status.bad { color: var(--bad); }
+  #status.ok { color: var(--ok); }
+  footer { margin-top: 18px; color: var(--muted); font-size: .8rem; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Writeo for Claude</h1>
+  <p class="lead">Sign in once so Claude can work with your novels. Your password goes straight to Writeo and is never stored.</p>
+  <form id="f" novalidate>
+    <div class="field">
+      <label for="email">EMAIL</label>
+      <input id="email" type="email" autocomplete="username" required autofocus>
+    </div>
+    <div class="field">
+      <label for="password">PASSWORD</label>
+      <input id="password" type="password" autocomplete="current-password" required>
+      <button class="eye" id="eye" type="button" aria-label="Show password" aria-pressed="false">
+        <svg class="on" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>
+        <svg class="off" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/></svg>
+      </button>
+    </div>
+    <button class="go" id="go" type="submit">Sign in</button>
+    <p id="status" role="status" aria-live="polite"></p>
+  </form>
+  <footer>This page only runs on your computer and closes itself after you sign in.</footer>
+</main>
+<script>
+  const $ = (id) => document.getElementById(id);
+  const status = (msg, cls) => { $("status").textContent = msg; $("status").className = cls || ""; };
+  $("eye").addEventListener("click", () => {
+    const show = $("password").type === "password";
+    $("password").type = show ? "text" : "password";
+    $("eye").setAttribute("aria-pressed", String(show));
+    $("eye").setAttribute("aria-label", show ? "Hide password" : "Show password");
+  });
+  $("f").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!$("email").value || !$("password").value) return status("Enter your email and password.", "bad");
+    $("go").disabled = true; $("go").textContent = "Signing in…"; status("");
+    try {
+      const r = await fetch(location.pathname + "/submit", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: $("email").value, password: $("password").value }),
+      });
+      const j = await r.json().catch(() => ({}));
+      if (r.ok) {
+        $("go").textContent = "Signed in";
+        $("password").value = "";
+        return status("Signed in. You can close this tab and go back to Claude.", "ok");
+      }
+      status(j.error || "Sign-in failed.", "bad");
+    } catch (_) {
+      status("Could not reach the local Writeo helper. Ask Claude for a fresh link.", "bad");
+    }
+    $("go").disabled = false; $("go").textContent = "Sign in";
+  });
+</script>
+</body>
+</html>
