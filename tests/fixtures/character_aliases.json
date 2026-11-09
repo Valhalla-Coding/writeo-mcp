@@ -1,0 +1,4 @@
+{
+  "list": [{"id": 1, "novel_id": 5, "name": "Scratch A", "description": "", "image_url": "", "role": "Side", "created_at": "2026-01-01T00:00:00+00:00", "graph_x": null, "graph_y": null, "aliases": ["Ay"], "custom_sections_count": 0, "require_capitalized": null, "track_enabled": true, "match_mode": "auto", "character_profiles": null}],
+  "update_response": {"id": 1, "novel_id": 5, "name": "Scratch A", "description": "", "image_url": "", "role": "Side", "aliases": ["Ay", "Eh"], "require_capitalized": true, "track_enabled": false, "match_mode": "substring"}
+}

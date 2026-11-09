@@ -42,3 +42,7 @@ Used before writing any new tool, so formats are recorded and never guessed. Req
 - `POST /relations` (201) body: `source_character_id` and `target_character_id` as strings, `relation_type` (1 to 15 chars), `description`, `intensity` (1 to 10), `is_bidirectional`, `inverse_type`, `visibility` ("public"), `ai_context`, `motivation_impact`. The reply uses `character_source_id` / `character_target_id`.
 - `PUT /relations/{id}` takes any of `relation_type`, `description`, `intensity` and returns the full record. `DELETE /relations/{id}` returns 204; deleting one half of a mutual pair removes both.
 - A second relation of the same type between the same pair is a 500 (`unique_relation_pair_type`); the tools check for it first.
+
+## Character aliases and tracking
+
+`PUT /characters/{id}` also takes `aliases` (list of strings, replaces the list), `track_enabled`, `require_capitalized` (true or null) and `match_mode`. `match_mode` accepted `auto` and `substring`; every other value tried was a 400 (the site's code hints at one more, not found). The character list reply carries all four fields.

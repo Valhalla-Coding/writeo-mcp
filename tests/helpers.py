@@ -28,8 +28,8 @@ class FakeClient:
         return [c[3] for c in self.calls if c[0] == method and c[1] == path]
 
 
-def call(name, **args):
-    result = asyncio.run(mcp.call_tool(name, args))
+def call(tool, /, **args):
+    result = asyncio.run(mcp.call_tool(tool, args))
     if isinstance(result, tuple) and isinstance(result[1], dict) and set(result[1]) == {"result"}:
         return result[1]["result"]  # list-returning tools
     content = result[0] if isinstance(result, tuple) else result
