@@ -19,35 +19,22 @@ Every delete needs `confirm=true`; without it the tool only says what it would d
 
 Text is plain: blank lines separate chapter paragraphs, one line per note paragraph. Covers, character portraits, scenes, volumes beyond the default, and relationships are not supported.
 
-## Install (Windows)
+## Install
 
-```powershell
-cd writeo-mcp   # the folder you cloned or downloaded
-python -m venv .venv
-.venv\Scripts\pip install -e .
-```
+One command. It installs [uv](https://docs.astral.sh/uv/) if you don't have it, finds the MCP apps on your computer (Claude Desktop, Claude Code, Codex, Cursor, VS Code, OpenCode, Antigravity), and asks which ones to set up.
 
-Then add it to Claude.
+- **Windows (PowerShell):** `irm https://raw.githubusercontent.com/Valhalla-Coding/writeo-mcp/main/install.ps1 | iex`
+- **macOS / Linux:** `curl -LsSf https://raw.githubusercontent.com/Valhalla-Coding/writeo-mcp/main/install.sh | sh`
 
-**Claude Desktop**: open `%APPDATA%\Claude\claude_desktop_config.json` and add the following, using the full path to your own copy of the folder:
+At the prompt, press Enter for all, type numbers like `1 3` to pick, or `n` for none. Then restart the app and say "sign in to Writeo".
+
+Options (after `sh -s --` on macOS/Linux, or when running `install.ps1` from a clone): `--dry-run` shows what would change, `--yes` skips the question, `--print` shows the config snippet. Re-running is safe: it keeps your other settings, saves a `.bak` copy of every file it changes, and skips files it cannot read.
+
+If your app isn't listed, add this to its MCP settings by hand (`--print` shows it with your own uvx path):
 
 ```json
-{
-  "mcpServers": {
-    "writeo": {
-      "command": "C:\\path\\to\\writeo-mcp\\.venv\\Scripts\\writeo-mcp.exe"
-    }
-  }
-}
+{ "mcpServers": { "writeo": { "command": "uvx", "args": ["--from", "https://github.com/Valhalla-Coding/writeo-mcp/archive/refs/heads/main.zip", "writeo-mcp"] } } }
 ```
-
-**Claude Code** (same, with your own path):
-
-```powershell
-claude mcp add writeo -- C:\path\to\writeo-mcp\.venv\Scripts\writeo-mcp.exe
-```
-
-Restart Claude, then say "sign in to Writeo".
 
 ## Signing in
 
@@ -65,9 +52,9 @@ Sign in with email and password. Accounts that only use "Continue with Google" w
 
 ## Development
 
-```powershell
-.venv\Scripts\pip install -e .[dev]
-.venv\Scripts\python -m pytest
+```
+.venv/bin/pip install -e .[dev]        # Windows: .venv\Scripts\pip
+.venv/bin/python -m pytest              # Windows: .venv\Scripts\python
 ```
 
 Tests run against fake servers and never touch your account. See `docs/design.md` for the design and `docs/api-notes.md` for what the Writeo API looks like. If Writeo changes something, errors name the route that broke, and all route knowledge lives in `src/writeo_mcp/tools_*.py` and `client.py`.
