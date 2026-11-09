@@ -1,0 +1,15 @@
+{
+  "profile": {
+    "character": {"id": 1, "name": "Scratch A"},
+    "sections": [{"id": 10, "character_id": 1, "section_name": "S1b", "section_type": null, "display_order": null, "is_collapsed": false, "config": {}, "fields_count": 2,
+      "fields": [
+        {"id": 20, "section_id": 10, "field_key": "wants", "field_label": "Wants more", "field_type": "text", "display_order": 1, "value": "tea"},
+        {"id": 21, "section_id": 10, "field_key": "fears", "field_label": "Fears", "field_type": "text", "display_order": 0, "value": null}]}]
+  },
+  "section_created": {"id": 11, "character_id": 1, "section_name": "S2", "section_type": null, "display_order": null, "is_collapsed": false, "config": {}, "fields_count": 0},
+  "section_renamed": {"id": 10, "character_id": 1, "section_name": "Renamed", "section_type": null, "display_order": null, "is_collapsed": false, "config": {}, "fields_count": 2},
+  "field_created": {"id": 22, "section_id": 10, "field_key": "wants_more", "field_label": "Wants More", "field_type": "text", "display_order": 0, "validation_rules": {}},
+  "field_renamed": {"id": 20, "section_id": 10, "field_key": "wants", "field_label": "Desire", "field_type": "text", "display_order": 1},
+  "value_saved": {"id": 5, "character_id": 1, "field_def_id": 20, "value": "te", "version": 2, "chapter_id": null},
+  "templates": [{"id": 3, "name": "Core", "description": "Basics", "section_type": "list", "field_definitions": [{"field_key": "wants", "field_type": "text", "field_label": "Wants", "display_order": 0}], "created_by": {}}]
+}

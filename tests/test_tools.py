@@ -19,7 +19,10 @@ def test_every_planned_tool_exists():
             "list_characters", "get_character", "create_character", "update_character", "delete_character",
             "list_notes", "get_note", "create_note", "update_note", "delete_note",
             "list_boards", "get_board", "add_board_item", "update_board_item", "delete_board_item",
-            "list_relations", "create_relation", "update_relation", "delete_relation"} <= names
+            "list_relations", "create_relation", "update_relation", "delete_relation",
+            "get_character_profile", "add_profile_section", "rename_profile_section", "reorder_profile_sections",
+            "delete_profile_section", "add_profile_field", "set_profile_value", "rename_profile_field",
+            "reorder_profile_fields", "delete_profile_field", "list_profile_templates"} <= names
 
 
 def test_create_novel_sends_writeos_payload_and_selects_it(use):

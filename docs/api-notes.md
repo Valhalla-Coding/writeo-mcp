@@ -46,3 +46,11 @@ Used before writing any new tool, so formats are recorded and never guessed. Req
 ## Character aliases and tracking
 
 `PUT /characters/{id}` also takes `aliases` (list of strings, replaces the list), `track_enabled`, `require_capitalized` (true or null) and `match_mode`. `match_mode` accepted `auto` and `substring`; every other value tried was a 400 (the site's code hints at one more, not found). The character list reply carries all four fields.
+
+## Character profiles
+
+- `GET /characters/{id}/profile` returns `{character, sections: [{id, section_name, display_order, fields_count, fields: [{id, field_key, field_label, field_type, display_order, value}]}]}`. Values come back inside the fields.
+- `POST /characters/sections` `{character_id (string), section_name}` (201). `PUT /characters/sections/{id}` `{section_name}`. `PUT /characters/sections/reorder` `{characterId, orderedIds}`. `DELETE /characters/sections/{id}` (204).
+- `POST /characters/fields` `{section_id, field_key, field_label, field_type}` (201; `field_key` is required, duplicates allowed). `PUT /characters/fields/{id}` `{field_label}`. `PUT /characters/fields/reorder` `{updates: [{id, display_order}]}`. `DELETE /characters/fields` with body `{fieldIds: [..]}` (there is no per-id delete route).
+- `POST /characters/values` `{character_id, field_def_id, value, context: {}}` saves a value (200, `version` increases).
+- `GET /characters/templates/all` lists templates. Applying (`POST /characters/sections/from-template`) and creating templates answered 500 (bigint "undefined") for every body tried, so those are not supported.
