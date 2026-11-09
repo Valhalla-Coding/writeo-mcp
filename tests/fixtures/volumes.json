@@ -1,0 +1,4 @@
+{"list": [{"id": 1, "novel_id": 5, "volume_number": 1, "title": "Volume One", "description": "", "order_index": 1},
+          {"id": 2, "novel_id": 5, "volume_number": 2, "title": "Volume Two", "description": "", "order_index": 2}],
+ "create": {"request": {"novel_id": "5", "title": "Volume Three", "volume_number": 3}, "response": {"id": 3, "novel_id": 5, "volume_number": 3, "title": "Volume Three", "description": "", "order_index": 3}},
+ "reorder": {"request": {"order_key": "aab", "novel_id": "5"}, "response": {"id": 11, "order_key": "aab", "parent_chapter_id": null}}}

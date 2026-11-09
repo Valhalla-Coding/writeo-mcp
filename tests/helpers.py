@@ -22,6 +22,7 @@ class FakeClient:
     def get(self, path, params=None): return self.request("GET", path, params=params)
     def post(self, path, json): return self.request("POST", path, json=json)
     def put(self, path, json): return self.request("PUT", path, json=json)
+    def patch(self, path, json): return self.request("PATCH", path, json=json)
     def delete(self, path): return self.request("DELETE", path)
 
     def sent(self, method, path):

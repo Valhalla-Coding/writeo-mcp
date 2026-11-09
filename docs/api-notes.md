@@ -54,3 +54,9 @@ Used before writing any new tool, so formats are recorded and never guessed. Req
 - `POST /characters/fields` `{section_id, field_key, field_label, field_type}` (201; `field_key` is required, duplicates allowed). `PUT /characters/fields/{id}` `{field_label}`. `PUT /characters/fields/reorder` `{updates: [{id, display_order}]}`. `DELETE /characters/fields` with body `{fieldIds: [..]}` (there is no per-id delete route).
 - `POST /characters/values` `{character_id, field_def_id, value, context: {}}` saves a value (200, `version` increases).
 - `GET /characters/templates/all` lists templates. Applying (`POST /characters/sections/from-template`) and creating templates answered 500 (bigint "undefined") for every body tried, so those are not supported.
+
+## Volumes and ordering (captured on a scratch novel)
+- `GET /volumes/novel/{id}` list; `POST /volumes` {novel_id (string), title, volume_number} 201; `PUT /volumes/{id}` {title} 200 (PATCH 404); `DELETE /volumes/{id}` 204.
+- Chapter order: `PATCH /chapters/{id}/reorder` {order_key, novel_id (string)}. order_key is 1-50 lowercase letters, sorted as a string; nothing sorts before "a", so the tool rewrites every chapter with fixed-width keys (aaa, aab, ...).
+- Novels: `PUT /novels/reorder` {orderedIds: [...]}.
+- Dropped: scenes (CHAPTER_REQUIRES_CONVERSION, needs editor hash), custom chapter statuses (PRO, 403).

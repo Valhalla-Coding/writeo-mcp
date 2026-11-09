@@ -1,6 +1,7 @@
 from datetime import date
 
 from . import deps
+from .client import WriteoError
 
 _KEEP = ("id", "title", "status", "genre_v2", "chapters_count", "characters_count")
 
@@ -49,3 +50,12 @@ def register(mcp):
         """Change a novel's title, synopsis or genres. Only the fields you give are changed."""
         body = {k: v for k, v in {"title": title, "description": synopsis, "genre_v2": genres}.items() if v is not None}
         return _brief(deps.client.put(f"/novels/{deps.need_novel(novel_id)}", body))
+
+    @mcp.tool()
+    def reorder_novels(ordered_ids: list[int]) -> list[dict]:
+        """Put the novels in this order. ordered_ids must list every novel of the account exactly once."""
+        have = {n["id"] for n in deps.client.get("/novels")}
+        if sorted(ordered_ids) != sorted(have):
+            raise WriteoError(f"ordered_ids must be exactly your novel ids: {sorted(have)}.")
+        deps.client.put("/novels/reorder", {"orderedIds": ordered_ids})
+        return [_brief(n) for n in deps.client.get("/novels")]

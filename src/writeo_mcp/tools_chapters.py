@@ -1,4 +1,5 @@
 from . import deps
+from .client import WriteoError
 from .convert import html_to_text, text_to_html
 
 
@@ -17,6 +18,11 @@ def _volume_for_new_chapter(nid: int, volume_id: int | None) -> int:
     if volumes:
         return max(volumes, key=lambda v: v["volume_number"])["id"]
     return deps.client.post("/volumes", {"title": "Volume One", "volume_number": 1, "novel_id": str(nid)})["id"]
+
+
+def order_keys(n: int) -> list[str]:
+    """n increasing lowercase keys ('aaa', 'aab', ...); Writeo sorts chapters by this string."""
+    return ["".join(chr(97 + d) for d in (i // 676, i // 26 % 26, i % 26)) for i in range(n)]
 
 
 def register(mcp):
@@ -64,3 +70,14 @@ def register(mcp):
             return {"deleted": False, "would_delete": _brief(chapter), "next": "Call again with confirm=true to delete."}
         deps.client.delete(f"/chapters/{chapter_id}")
         return {"deleted": True, "chapter": _brief(chapter)}
+
+    @mcp.tool()
+    def reorder_chapters(ordered_ids: list[int], novel_id: int | None = None) -> list[dict]:
+        """Put the chapters in this order. ordered_ids must list every chapter of the novel exactly once."""
+        nid = deps.need_novel(novel_id)
+        have = {c["id"] for c in deps.client.get(f"/chapters/novel/{nid}")}
+        if sorted(ordered_ids) != sorted(have):
+            raise WriteoError(f"ordered_ids must be exactly the novel's chapter ids: {sorted(have)}.")
+        for cid, key in zip(ordered_ids, order_keys(len(ordered_ids))):
+            deps.client.patch(f"/chapters/{cid}/reorder", {"order_key": key, "novel_id": str(nid)})
+        return [_brief(c) for c in sorted(deps.client.get(f"/chapters/novel/{nid}"), key=lambda c: c.get("order_key") or "")]
