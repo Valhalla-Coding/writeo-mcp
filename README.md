@@ -9,11 +9,17 @@ It talks to the same web API the Writeo site uses. Writeo has no public API, so 
 | Area | Tools |
 | --- | --- |
 | Sign-in | `writeo_login`, `writeo_status` |
-| Novels | `list_novels`, `select_novel`, `get_novel`, `create_novel`, `update_novel` |
-| Chapters | `list_chapters`, `get_chapter`, `create_chapter`, `update_chapter`, `delete_chapter` |
+| Novels | `list_novels`, `select_novel`, `get_novel`, `create_novel`, `update_novel`, `reorder_novels` |
+| Chapters | `list_chapters`, `get_chapter`, `create_chapter`, `update_chapter`, `delete_chapter`, `reorder_chapters` |
 | Characters | `list_characters`, `get_character`, `create_character`, `update_character`, `delete_character` |
 | Notes | `list_notes`, `get_note`, `create_note`, `update_note`, `delete_note` |
 | Mood board | `list_boards`, `get_board`, `add_board_item`, `update_board_item`, `delete_board_item` |
+| Volumes | `list_volumes`, `create_volume`, `rename_volume`, `delete_volume` |
+| Relationships | `list_relations`, `create_relation`, `update_relation`, `delete_relation` |
+| Character profiles | `get_character_profile`, `add_profile_section`, `rename_profile_section`, `reorder_profile_sections`, `delete_profile_section`, `add_profile_field`, `set_profile_value`, `rename_profile_field`, `reorder_profile_fields`, `delete_profile_field`, `list_profile_templates` |
+| Name detection | `list_name_overrides`, `add_name_override`, `delete_name_override` |
+
+Characters also take aliases and name-tracking settings through `update_character`. Not covered: scenes, custom chapter statuses (PRO), profile templates (Writeo errors), goals, calendar and to-dos, tracked appearances. Deletes need `confirm=true`; deleting a whole novel is deliberately left to the website.
 
 Every delete needs `confirm=true`; without it the tool only says what it would delete. Deleting a whole novel is deliberately not included.
 

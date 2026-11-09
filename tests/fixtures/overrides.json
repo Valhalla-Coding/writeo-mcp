@@ -1,0 +1,4 @@
+{"list": [{"id": 8982, "novel_id": 5, "chapter_id": null, "term": "Zee", "action": "reassign", "character_id": 7},
+          {"id": 8981, "novel_id": 5, "chapter_id": null, "term": "Zed", "action": "suppress", "character_id": null}],
+ "suppress": {"request": {"novel_id": "5", "action": "suppress", "term": "Zed"}, "response": {"id": 8981, "novel_id": 5, "term": "Zed", "action": "suppress", "character_id": null}},
+ "reassign": {"request": {"novel_id": "5", "action": "reassign", "term": "Zee", "character_id": "7"}, "response": {"id": 8982, "novel_id": 5, "term": "Zee", "action": "reassign", "character_id": 7}}}

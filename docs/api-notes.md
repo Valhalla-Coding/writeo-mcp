@@ -60,3 +60,7 @@ Used before writing any new tool, so formats are recorded and never guessed. Req
 - Chapter order: `PATCH /chapters/{id}/reorder` {order_key, novel_id (string)}. order_key is 1-50 lowercase letters, sorted as a string; nothing sorts before "a", so the tool rewrites every chapter with fixed-width keys (aaa, aab, ...).
 - Novels: `PUT /novels/reorder` {orderedIds: [...]}.
 - Dropped: scenes (CHAPTER_REQUIRES_CONVERSION, needs editor hash), custom chapter statuses (PRO, 403).
+
+## Name-detection overrides
+- `GET /characters/overrides/novel/{id}` list; `POST /characters/overrides` {novel_id (string), action: suppress|reassign, term, character_id (string, reassign only)} 201; `DELETE /characters/overrides/{id}` 204.
+- Not implemented: `POST /characters/appearances` takes a client-computed `appearancesMap` (derived data); goals, `/home/todos` (PUT, max 8) and `/calendar` (needs `from`) were left out because probing them writes to the real account.

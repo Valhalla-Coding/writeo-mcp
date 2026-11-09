@@ -23,7 +23,8 @@ def test_every_planned_tool_exists():
             "get_character_profile", "add_profile_section", "rename_profile_section", "reorder_profile_sections",
             "delete_profile_section", "add_profile_field", "set_profile_value", "rename_profile_field",
             "reorder_profile_fields", "delete_profile_field", "list_profile_templates",
-            "list_volumes", "create_volume", "rename_volume", "delete_volume", "reorder_chapters", "reorder_novels"} <= names
+            "list_volumes", "create_volume", "rename_volume", "delete_volume", "reorder_chapters", "reorder_novels",
+            "list_name_overrides", "add_name_override", "delete_name_override"} <= names
 
 
 def test_create_novel_sends_writeos_payload_and_selects_it(use):
