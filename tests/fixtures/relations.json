@@ -1,0 +1,15 @@
+{
+  "create": {
+    "request": {"source_character_id": "1", "target_character_id": "2", "relation_type": "friend", "description": "", "intensity": 5, "is_bidirectional": false, "inverse_type": null, "visibility": "public", "ai_context": "", "motivation_impact": ""},
+    "response": {"id": 10, "character_source_id": 1, "character_target_id": 2, "relation_type": "friend", "description": "", "status": "active", "intensity": 5, "is_bidirectional": false, "visibility": "public", "ai_context": "", "motivation_impact": "", "chapter_id": null, "metadata": {}, "linked_relation_id": null}
+  },
+  "update": {
+    "request": {"relation_type": "mentor", "description": "scratch", "intensity": 7},
+    "response": {"id": 10, "character_source_id": 1, "character_target_id": 2, "relation_type": "mentor", "description": "scratch", "status": "active", "intensity": 7, "is_bidirectional": false, "visibility": "public", "ai_context": "", "motivation_impact": "", "chapter_id": null, "metadata": {}, "linked_relation_id": null}
+  },
+  "list": {
+    "nodes": [{"id": 1, "name": "Scratch A", "image": "", "role": "Side", "val": 1}, {"id": 2, "name": "Scratch B", "image": "", "role": "Side", "val": 1}],
+    "links": [{"source": 1, "target": 2, "type": "friend", "intensity": 5, "description": "", "id": 10, "visibility": "public", "metadata": {}, "is_bidirectional": false, "linked_relation_id": null},
+              {"source": 2, "target": 1, "type": "ally", "intensity": 5, "description": "", "id": 11, "visibility": "public", "metadata": {}, "is_bidirectional": true, "linked_relation_id": 12}]
+  }
+}

@@ -30,6 +30,8 @@ class FakeClient:
 
 def call(name, **args):
     result = asyncio.run(mcp.call_tool(name, args))
+    if isinstance(result, tuple) and isinstance(result[1], dict) and set(result[1]) == {"result"}:
+        return result[1]["result"]  # list-returning tools
     content = result[0] if isinstance(result, tuple) else result
     text = content[0].text
     try:

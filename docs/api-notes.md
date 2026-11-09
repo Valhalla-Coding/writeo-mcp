@@ -35,3 +35,10 @@ Used before writing any new tool, so formats are recorded and never guessed. Req
 3. Do each action once through Writeo's own screens (create, edit, reorder, delete).
 4. Save the recorded calls as `tests/fixtures/<area>.json` with scratch data only: no real story text, names or ids that identify the account.
 5. Delete the scratch novel on the site.
+
+## Relations
+
+- `GET /relations/novel/{novel_id}` returns `{nodes: [{id, name, ...}], links: [{id, source, target, type, intensity, description, is_bidirectional, linked_relation_id}]}`. `GET /relations/character/{id}` returns `{outgoing: [...], incoming: [...]}` of full records.
+- `POST /relations` (201) body: `source_character_id` and `target_character_id` as strings, `relation_type` (1 to 15 chars), `description`, `intensity` (1 to 10), `is_bidirectional`, `inverse_type`, `visibility` ("public"), `ai_context`, `motivation_impact`. The reply uses `character_source_id` / `character_target_id`.
+- `PUT /relations/{id}` takes any of `relation_type`, `description`, `intensity` and returns the full record. `DELETE /relations/{id}` returns 204; deleting one half of a mutual pair removes both.
+- A second relation of the same type between the same pair is a 500 (`unique_relation_pair_type`); the tools check for it first.

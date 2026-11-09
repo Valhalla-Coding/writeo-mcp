@@ -18,7 +18,8 @@ def test_every_planned_tool_exists():
             "list_chapters", "get_chapter", "create_chapter", "update_chapter", "delete_chapter",
             "list_characters", "get_character", "create_character", "update_character", "delete_character",
             "list_notes", "get_note", "create_note", "update_note", "delete_note",
-            "list_boards", "get_board", "add_board_item", "update_board_item", "delete_board_item"} <= names
+            "list_boards", "get_board", "add_board_item", "update_board_item", "delete_board_item",
+            "list_relations", "create_relation", "update_relation", "delete_relation"} <= names
 
 
 def test_create_novel_sends_writeos_payload_and_selects_it(use):
